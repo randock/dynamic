@@ -25,15 +25,15 @@ import {
   hydrateOnInteraction,
   hydrateWhenIdle,
   hydrateWhenVisible,
-  hydrateSsrOnly,
+  hydrateNever,
 } from "vue-lazy-hydration";
-import { toPascalCase } from "./../utils/cases";
+import { toPascalCase } from "../utils/cases";
 
 // inspiration for slot handling:
 // https://gist.github.com/loilo/73c55ed04917ecf5d682ec70a2a1b8e2
 export default {
   name: "Dynamic",
-  
+
   inheritAttrs: false,
 
   props: {
@@ -46,7 +46,7 @@ export default {
      *   OnInteraction,
      *   WhenIdle,
      *   WhenVisible,
-     *   SsrOnly,
+     *   Never,
      * ]
      */
     hydration: {
@@ -57,7 +57,7 @@ export default {
 
   computed: {
     hydrate() {
-      return this[`hydrate${this.hydration}`] ?? null;
+      return this[`hydrate${this.hydration}`] || null;
     },
 
     componentLoader() {
@@ -69,7 +69,7 @@ export default {
             : null;
         })
         .filter((loader) => loader);
-      return loaders.shift() ?? null;
+      return loaders.shift() || null;
     },
 
     lazyComponent() {
@@ -83,7 +83,7 @@ export default {
     hydrateOnInteraction: hydrateOnInteraction,
     hydrateWhenIdle: hydrateWhenIdle,
     hydrateWhenVisible: hydrateWhenVisible,
-    hydrateSsrOnly: hydrateSsrOnly,
+    hydrateNever: hydrateNever,
   },
 };
 </script>
